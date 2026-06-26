@@ -1,0 +1,11 @@
+{
+    "name": "photoreal-science-packs",
+    "version": "0.1.0",
+    "title": "Photoreal Science Packs",
+    "author": "Justin Desilets",
+    "factorio_version": "2.0",
+    "contact": "justin.desilets@gmail.com",
+    "homepage": "https://github.com/justindesilets",
+    "dependencies": ["base >= 2.0", "space-age"],
+    "description": "This mod adds photoreal looking science packs."
+}
