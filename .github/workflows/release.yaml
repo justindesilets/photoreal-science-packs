@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js (for parsing JSON)
         uses: actions/setup-node@v6
         with:
-          node-node-version: '20'
+          node-version: '22'
 
       - name: Parse Mod Info
         id: mod_info
