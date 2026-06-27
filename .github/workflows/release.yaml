@@ -3,7 +3,7 @@ name: Package and Release Factorio Mod
 on:
   push:
     tags:
-      - 'v*.*.*' # Triggers only when you push a version tag like v1.0.0
+      - '*.*.*' # Triggers only when you push a version tag like 1.0.0
 
 jobs:
   build-and-release:
