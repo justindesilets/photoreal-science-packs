@@ -10,10 +10,10 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js (for parsing JSON)
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-node-version: '20'
 
@@ -44,7 +44,7 @@ jobs:
           zip -r "${{ steps.mod_info.outputs.folder_name }}.zip" "${{ steps.mod_info.outputs.folder_name }}"
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: "${{ steps.mod_info.outputs.folder_name }}.zip"
         env:
