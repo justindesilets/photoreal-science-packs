@@ -1,0 +1,51 @@
+name: Package and Release Factorio Mod
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Triggers only when you push a version tag like v1.0.0
+
+jobs:
+  build-and-release:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (for parsing JSON)
+        uses: actions/setup-node@v4
+        with:
+          node-node-version: '20'
+
+      - name: Parse Mod Info
+        id: mod_info
+        run: |
+          # Read name and version directly from info.json
+          MOD_NAME=$(node -p "require('./info.json').name")
+          MOD_VERSION=$(node -p "require('./info.json').version")
+          
+          echo "name=${MOD_NAME}" >> $GITHUB_OUTPUT
+          echo "version=${MOD_VERSION}" >> $GITHUB_OUTPUT
+          echo "folder_name=${MOD_NAME}_${MOD_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Package Mod Zip
+        run: |
+          # Factorio expects a subfolder inside the zip matching the filename
+          mkdir -p "${{ steps.mod_info.outputs.folder_name }}"
+          
+          # Copy your mod files into the temporary release directory
+          # Adjust the excluded items (.git, .github, etc.) as needed
+          rsync -av --progress ./ "${{ steps.mod_info.outputs.folder_name }}" \
+            --exclude '.git*' \
+            --exclude '.github' \
+            --exclude "${{ steps.mod_info.outputs.folder_name }}"
+
+          # Zip the folder
+          zip -r "${{ steps.mod_info.outputs.folder_name }}.zip" "${{ steps.mod_info.outputs.folder_name }}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: "${{ steps.mod_info.outputs.folder_name }}.zip"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
