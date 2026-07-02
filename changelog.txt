@@ -1,3 +1,11 @@
+# 0.2.0
+
+Updated the renders to use an HDRI environment for lighting instead of static lights.
+All images are using the same setup to provide consistnecy between base and space age
+science packs.
+
+Justin
+
 # 0.1.0
 
 The initial release of the Photoreal Science Packs.
